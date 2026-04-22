@@ -32,4 +32,9 @@ public class FilmeController {
     public Filme salvar(@RequestBody @Valid Filme filme){
         return service.salvar(filme);
     }
+
+    @DeleteMapping("{/id}")
+    public void deletar(@PathVariable Long idFilme){
+        return service.de
+    }
 }

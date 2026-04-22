@@ -25,4 +25,8 @@ public class FilmeService {
     public List<Filme> listar(){
         return repository.findAll();
     }
+
+    public void deletar(Long idFilme){
+        repository.deleteById(idFilme);
+    }
 }
