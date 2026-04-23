@@ -20,22 +20,27 @@ public class FilmeController {
     }
 
     @GetMapping
-    public List<Filme> listar(){
+    public List<FilmeResponseDTO> listar(){
         return service.listar();
     }
 
-    @GetMapping("/{id}")
-    public Filme buscarPorId(@PathVariable Long idFilme){
+    @GetMapping("/{idFilme}")
+    public FilmeResponseDTO buscarPorId(@PathVariable Long idFilme){
         return service.buscarPorId(idFilme);
     }
 
     @PostMapping
-    public FilmeResponseDTO salvar(@RequestBody @Valid FilmeRequestDTO filme){
-        return service.salvar(filme);
+    public FilmeResponseDTO salvar(@RequestBody @Valid FilmeRequestDTO dto){
+        return service.salvar(dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idFilme}")
     public void deletar(@PathVariable Long idFilme){
         service.deletar(idFilme);
+    }
+
+    @PutMapping("/{idFilme}")
+    public FilmeResponseDTO atualizar(@PathVariable Long idFilme, @RequestBody @Valid FilmeRequestDTO dto){
+        return service.atualizar(idFilme, dto);
     }
 }

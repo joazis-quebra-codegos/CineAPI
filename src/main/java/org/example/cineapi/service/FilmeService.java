@@ -22,16 +22,35 @@ public class FilmeService {
         return toResponseDTO(salvo);
     }
 
-    public Filme buscarPorId(Long idFilme){
-        return repository.findById(idFilme).orElseThrow(() -> new RuntimeException(""));
+    public FilmeResponseDTO buscarPorId(Long idFilme){
+        Filme filme = repository.findById(idFilme).orElseThrow(() -> new RuntimeException(""));
+        return toResponseDTO(filme);
     }
 
-    public List<Filme> listar(){
-        return repository.findAll();
+    public List<FilmeResponseDTO> listar(){
+        return repository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     public void deletar(Long idFilme){
-        repository.deleteById(idFilme);
+        Filme filme = repository.findById(idFilme).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        repository.delete(filme);
+    }
+
+    public FilmeResponseDTO atualizar(Long idFilme, FilmeRequestDTO dto){
+        Filme existente = repository.findById(idFilme).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        existente.setTitulo(dto.titulo());
+        existente.setGenero(dto.genero());
+        existente.setDiretor(dto.diretor());
+        existente.setAno(dto.ano());
+        existente.setDuracao(dto.duracao());
+        existente.setNota(dto.nota());
+
+        Filme atualizado = repository.save(existente);
+        return toResponseDTO(atualizado);
+
     }
 
     private Filme toEntity(FilmeRequestDTO dto){
