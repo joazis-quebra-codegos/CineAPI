@@ -1,9 +1,10 @@
 package org.example.cineapi.controller;
 
 import jakarta.validation.Valid;
+import org.example.cineapi.dto.FilmeRequestDTO;
+import org.example.cineapi.dto.FilmeResponseDTO;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.service.FilmeService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,18 +24,18 @@ public class FilmeController {
         return service.listar();
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public Filme buscarPorId(@PathVariable Long idFilme){
         return service.buscarPorId(idFilme);
     }
 
     @PostMapping
-    public Filme salvar(@RequestBody @Valid Filme filme){
+    public FilmeResponseDTO salvar(@RequestBody @Valid FilmeRequestDTO filme){
         return service.salvar(filme);
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long idFilme){
-        return service.de
+        service.deletar(idFilme);
     }
 }
