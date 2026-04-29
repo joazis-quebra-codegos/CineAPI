@@ -2,7 +2,9 @@ package org.example.cineapi.service;
 
 import org.example.cineapi.dto.FilmeRequestDTO;
 import org.example.cineapi.dto.FilmeResponseDTO;
+import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
+import org.example.cineapi.repository.DiretorRepository;
 import org.example.cineapi.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.List;
 @Service
 public class FilmeService {
     private final FilmeRepository repository;
+    private final DiretorService diretorService;
 
-    public FilmeService(FilmeRepository repository){
+    public FilmeService(FilmeRepository repository, DiretorService diretorService){
         this.repository = repository;
+        this.diretorService = diretorService;
     }
 
     public FilmeResponseDTO salvar(FilmeRequestDTO dto){
@@ -41,9 +45,10 @@ public class FilmeService {
 
     public FilmeResponseDTO atualizar(Long idFilme, FilmeRequestDTO dto){
         Filme existente = repository.findById(idFilme).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        Diretor diretor = diretorService.buscarEntidade(dto.idDiretor());
         existente.setTitulo(dto.titulo());
         existente.setGenero(dto.genero());
-        existente.setDiretor(dto.diretor());
+        existente.setDiretor(diretor);
         existente.setAno(dto.ano());
         existente.setDuracao(dto.duracao());
         existente.setNota(dto.nota());
@@ -54,10 +59,11 @@ public class FilmeService {
     }
 
     private Filme toEntity(FilmeRequestDTO dto){
+        Diretor diretor = diretorService.buscarEntidade(dto.idDiretor());
         Filme filme = new Filme();
         filme.setTitulo(dto.titulo());
         filme.setGenero(dto.genero());
-        filme.setDiretor(dto.diretor());
+        filme.setDiretor(diretor);
         filme.setAno(dto.ano());
         filme.setDuracao(dto.duracao());
         filme.setNota(dto.nota());
