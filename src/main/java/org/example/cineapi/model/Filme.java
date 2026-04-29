@@ -2,6 +2,8 @@ package org.example.cineapi.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,13 +23,16 @@ public class Filme {
 
     private String genero;
 
-    private String diretor;
-
     private Integer ano;
 
     private Integer duracao;
 
     private Integer nota;
+
+    @ManyToMany
+    @JoinColumn(name = "idDiretor")
+    private Diretor diretor;
+
 
     public Filme(){}
 }

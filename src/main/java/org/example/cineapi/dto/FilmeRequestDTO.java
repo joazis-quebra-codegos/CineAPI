@@ -10,8 +10,8 @@ public record FilmeRequestDTO(
         @NotBlank(message = "Gênero é obrigatório")
         String genero,
 
-        @NotBlank(message = "Diretor é obrigatório")
-        String diretor,
+        @NotNull(message = "id é obrigatório")
+        Long idDiretor,
 
         @NotNull(message = "Ano é obrigatório")
         @Min(value = 1895)

@@ -68,7 +68,9 @@ public class FilmeService {
         return new FilmeResponseDTO(
                 filme.getIdFilme(),
                 filme.getTitulo(),
-                filme.getDiretor(),
-                filme.getNota());
+                filme.getDiretor().getIdDiretor(),
+                filme.getDiretor().getNome(),
+                filme.getNota()
+        );
     }
 }
