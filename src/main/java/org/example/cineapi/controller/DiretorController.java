@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/filmes")
+@RequestMapping("/diretores")
 public class DiretorController {
 
     private final DiretorService service;
@@ -39,10 +39,6 @@ public class DiretorController {
 
     }
 
-    @PutMapping("/{idDiretor}")
-    public DiretorResponseDTO(@PathVariable Long idDiretor, @RequestBody DiretorRequestDTO dto){
-
-    }
 
 
 }

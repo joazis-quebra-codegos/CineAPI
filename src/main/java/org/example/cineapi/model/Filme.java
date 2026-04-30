@@ -29,7 +29,7 @@ public class Filme {
 
     private Integer nota;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "idDiretor")
     private Diretor diretor;
 
