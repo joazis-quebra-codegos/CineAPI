@@ -24,9 +24,9 @@ public class FilmeController {
         return service.listar();
     }
 
-    @GetMapping("/{idFilme}")
-    public FilmeResponseDTO buscarPorId(@PathVariable Long idFilme){
-        return service.buscarPorId(idFilme);
+    @GetMapping("/{id}")
+    public FilmeResponseDTO buscarPorId(@PathVariable Long id){
+        return service.buscarPorId(id);
     }
 
     @PostMapping
@@ -34,13 +34,13 @@ public class FilmeController {
         return service.salvar(dto);
     }
 
-    @DeleteMapping("/{idFilme}")
-    public void deletar(@PathVariable Long idFilme){
-        service.deletar(idFilme);
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id){
+        service.deletar(id);
     }
 
-    @PutMapping("/{idFilme}")
-    public FilmeResponseDTO atualizar(@PathVariable Long idFilme, @RequestBody @Valid FilmeRequestDTO dto){
-        return service.atualizar(idFilme, dto);
+    @PutMapping("/{id}")
+    public FilmeResponseDTO atualizar(@PathVariable Long id, @RequestBody @Valid FilmeRequestDTO dto){
+        return service.atualizar(id, dto);
     }
 }

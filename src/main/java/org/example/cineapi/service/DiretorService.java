@@ -6,6 +6,7 @@ import org.example.cineapi.dto.FilmeResponseDTO;
 import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.DiretorRepository;
+import org.example.cineapi.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,21 +37,21 @@ public class DiretorService {
                 .toList();
     }
 
-    public DiretorResponseDTO buscarPorId(Long idDiretor){
-        Diretor diretor = repository.findById(idDiretor).
+    public DiretorResponseDTO buscarPorId(Long id){
+        Diretor diretor = repository.findById(id).
             orElseThrow(() -> new RuntimeException("Diretor não existe"));
 
         return toResponseDTO(diretor);
     }
 
-    public Diretor buscarEntidade(Long idDiretor){
-        return repository.findById(idDiretor).
+    public Diretor buscarEntidade(Long id){
+        return repository.findById(id).
             orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
     }
 
     private DiretorResponseDTO toResponseDTO(Diretor diretor){
         return new DiretorResponseDTO(
-                diretor.getIdDiretor(),
+                diretor.getId(),
                 diretor.getNome(),
                 diretor.getNacionalidade(),
                 diretor.getIdade(),

@@ -15,7 +15,7 @@ import java.util.List;
 public class Diretor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDiretor;
+    private Long id;
 
     private String nome;
     private String nacionalidade;

@@ -3,8 +3,11 @@ package org.example.cineapi.controller;
 import jakarta.validation.Valid;
 import org.example.cineapi.dto.DiretorRequestDTO;
 import org.example.cineapi.dto.DiretorResponseDTO;
+import org.example.cineapi.dto.FilmeResponseDTO;
+import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.DiretorRepository;
 import org.example.cineapi.service.DiretorService;
+import org.example.cineapi.service.FilmeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +17,11 @@ import java.util.List;
 public class DiretorController {
 
     private final DiretorService service;
+    private final FilmeService filmeService;
 
-    public DiretorController(DiretorService service){
+    public DiretorController(DiretorService service, FilmeService filmeService){
         this.service = service;
+        this.filmeService = filmeService;
     }
 
     @GetMapping
@@ -24,9 +29,14 @@ public class DiretorController {
         return service.listar();
     }
 
-    @GetMapping("/{idDiretor}")
-    public DiretorResponseDTO buscarPorId(@PathVariable Long idDiretor){
-        return service.buscarPorId(idDiretor);
+    @GetMapping("/{id}")
+    public DiretorResponseDTO buscarPorId(@PathVariable Long id){
+        return service.buscarPorId(id);
+    }
+
+    @GetMapping("/{id}/filmes")
+    public List<FilmeResponseDTO> buscarDiretorFilmes(@PathVariable Long id){
+        return filmeService.buscarDiretorFilmes(id);
     }
 
     @PostMapping
@@ -34,7 +44,7 @@ public class DiretorController {
         return service.salvar(dto);
     }
 
-    @DeleteMapping("/{idDiretor}")
+    @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long idFilme){
 
     }

@@ -26,9 +26,17 @@ public class FilmeService {
         return toResponseDTO(salvo);
     }
 
-    public FilmeResponseDTO buscarPorId(Long idFilme){
-        Filme filme = repository.findById(idFilme).orElseThrow(() -> new RuntimeException(""));
+    public FilmeResponseDTO buscarPorId(Long id){
+        Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException(""));
         return toResponseDTO(filme);
+    }
+
+    public List<FilmeResponseDTO> buscarDiretorFilmes(Long id){
+        diretorService.buscarEntidade(id);
+        return repository.findByDiretorId(id)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     public List<FilmeResponseDTO> listar(){
@@ -38,13 +46,13 @@ public class FilmeService {
                 .toList();
     }
 
-    public void deletar(Long idFilme){
-        Filme filme = repository.findById(idFilme).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+    public void deletar(Long id){
+        Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
         repository.delete(filme);
     }
 
-    public FilmeResponseDTO atualizar(Long idFilme, FilmeRequestDTO dto){
-        Filme existente = repository.findById(idFilme).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+    public FilmeResponseDTO atualizar(Long id, FilmeRequestDTO dto){
+        Filme existente = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
         Diretor diretor = diretorService.buscarEntidade(dto.idDiretor());
         existente.setTitulo(dto.titulo());
         existente.setGenero(dto.genero());
@@ -72,9 +80,9 @@ public class FilmeService {
 
     private FilmeResponseDTO toResponseDTO(Filme filme){
         return new FilmeResponseDTO(
-                filme.getIdFilme(),
+                filme.getId(),
                 filme.getTitulo(),
-                filme.getDiretor().getIdDiretor(),
+                filme.getDiretor().getId(),
                 filme.getDiretor().getNome(),
                 filme.getNota()
         );
