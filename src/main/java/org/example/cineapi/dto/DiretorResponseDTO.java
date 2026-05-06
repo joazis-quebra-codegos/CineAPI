@@ -6,5 +6,4 @@ public record DiretorResponseDTO(
         String nacionalidade,
         Integer idade,
         String biografia
-
 ) {}

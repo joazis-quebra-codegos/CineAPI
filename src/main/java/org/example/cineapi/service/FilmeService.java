@@ -32,6 +32,11 @@ public class FilmeService {
         return toResponseDTO(filme);
     }
 
+    public Filme buscarEntidade(Long id){
+        return repository.findById(id).
+                orElseThrow(() -> new RecursoNaoEncontradoException("Filme não encontrado"));
+    }
+
     public List<FilmeResponseDTO> buscarDiretorFilmes(Long id){
         diretorService.buscarEntidade(id);
         return repository.findByDiretorId(id)
