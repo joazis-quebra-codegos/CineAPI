@@ -1,5 +1,6 @@
 package org.example.cineapi.controller;
 
+import jakarta.validation.Path;
 import jakarta.validation.Valid;
 import org.example.cineapi.dto.DiretorRequestDTO;
 import org.example.cineapi.dto.DiretorResponseDTO;
@@ -45,8 +46,13 @@ public class DiretorController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long idFilme){
+    public void deletar(@PathVariable Long id){
+        service.deletar(id);
+    }
 
+    @PutMapping("/{id}")
+    public DiretorResponseDTO atualizar(@RequestBody @Valid DiretorRequestDTO dto, @PathVariable Long id){
+        return service.atualizar(id, dto);
     }
 
 

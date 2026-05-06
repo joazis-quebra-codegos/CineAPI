@@ -1,6 +1,7 @@
 package org.example.cineapi.model;
 
 import jakarta.persistence.*;
+import lombok.Cleanup;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,8 @@ import java.util.List;
 public class Diretor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idDiretor")
     private Long id;
-
     private String nome;
     private String nacionalidade;
     private Integer idade;

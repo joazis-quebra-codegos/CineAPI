@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,17 +18,16 @@ public class Filme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idFilme")
     private Long id;
-
     private String titulo;
-
     private String genero;
-
     private Integer ano;
-
     private Integer duracao;
-
     private Integer nota;
+
+    @OneToMany(mappedBy = "filme")
+    private List<Avaliacao> avaliacao;
 
     @ManyToOne
     @JoinColumn(name = "idDiretor")

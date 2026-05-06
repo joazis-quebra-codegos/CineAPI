@@ -1,5 +1,7 @@
 package org.example.cineapi.handler;
 
+import org.example.cineapi.exception.RecursoNaoEncontradoException;
+import org.example.cineapi.exception.RegraDeNegocioException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,5 +21,21 @@ public class GlobalExceptionHandler {
                 erro -> erros.put(erro.getField(), erro.getDefaultMessage())
         );
         return ResponseEntity.badRequest().body(erros);
+    }
+
+    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    public ResponseEntity<Map<String, String>> tratarRecursoNaoEncontrado(RecursoNaoEncontradoException ex){
+        Map<String, String> erro = new HashMap<>();
+        erro.put("erro", ex.getMessage());
+
+        return ResponseEntity.status(404).body(erro);
+    }
+
+    @ExceptionHandler(RegraDeNegocioException.class)
+    public ResponseEntity<Map<String, String>> tratarRegraDeNegocio(RegraDeNegocioException ex){
+        Map<String, String> erro = new HashMap<>();
+        erro.put("erro", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(erro);
     }
 }

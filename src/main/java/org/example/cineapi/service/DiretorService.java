@@ -3,6 +3,8 @@ package org.example.cineapi.service;
 import org.example.cineapi.dto.DiretorRequestDTO;
 import org.example.cineapi.dto.DiretorResponseDTO;
 import org.example.cineapi.dto.FilmeResponseDTO;
+import org.example.cineapi.exception.RecursoNaoEncontradoException;
+import org.example.cineapi.exception.RegraDeNegocioException;
 import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.DiretorRepository;
@@ -39,14 +41,38 @@ public class DiretorService {
 
     public DiretorResponseDTO buscarPorId(Long id){
         Diretor diretor = repository.findById(id).
-            orElseThrow(() -> new RuntimeException("Diretor não existe"));
+            orElseThrow(() -> new RecursoNaoEncontradoException("Diretor não encontrado"));
 
         return toResponseDTO(diretor);
     }
 
+    public DiretorResponseDTO atualizar(Long id, DiretorRequestDTO dto){
+        Diretor diretor = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Diretor não encontrado"));
+
+        diretor.setNome(dto.nome());
+        diretor.setNacionalidade(dto.nacionalidade());
+        diretor.setIdade(dto.idade());
+        diretor.setBiografia(dto.biografia());
+
+        Diretor atualizado = repository.save(diretor);
+        return toResponseDTO(atualizado);
+    }
+
+    public void deletar(Long id){
+        Diretor diretor = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Diretor não encontrado"));
+
+        if(!diretor.getFilmes().isEmpty()){
+            throw new RegraDeNegocioException("Impossível deletar um diretor que possui filmes");
+        }
+
+        repository.delete(diretor);
+    }
+
     public Diretor buscarEntidade(Long id){
         return repository.findById(id).
-            orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+            orElseThrow(() -> new RecursoNaoEncontradoException("Diretor não encontrado"));
     }
 
     private DiretorResponseDTO toResponseDTO(Diretor diretor){
@@ -58,4 +84,5 @@ public class DiretorService {
                 diretor.getBiografia()
         );
     }
+
 }
