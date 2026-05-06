@@ -20,9 +20,5 @@ public record FilmeRequestDTO(
 
         @NotNull(message = "Duração é obrigatória")
         @Positive(message = "Duração tem que ser positiva")
-        Integer duracao,
-
-        @Min(value = 0)
-        @Max(value = 5)
-        Integer nota
+        Integer duracao
 ) {}

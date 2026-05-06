@@ -4,5 +4,6 @@ public record AvaliacaoResponseDTO (
         Long id,
         Integer nota,
         String comentario,
-        Long idFilme
+        Long idFilme,
+        String titulo
 ){}

@@ -7,24 +7,32 @@ import org.example.cineapi.model.Avaliacao;
 import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.AvaliacaoRepository;
+import org.example.cineapi.repository.FilmeRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AvaliacaoService {
 
     private final AvaliacaoRepository repository;
-    private final FilmeService filmeService;
+    private final FilmeRepository filmeRepository;
 
-    AvaliacaoService(AvaliacaoRepository repository, FilmeService filmeService){
+    AvaliacaoService(AvaliacaoRepository repository, FilmeRepository filmeRepository){
         this.repository = repository;
-        this.filmeService = filmeService;
+        this.filmeRepository = filmeRepository;
     }
 
     public AvaliacaoResponseDTO salvar(AvaliacaoRequestDTO dto){
         Avaliacao avaliacao = toEntity(dto);
+        return toResponse(avaliacao);
     }
 
     private Avaliacao toEntity(AvaliacaoRequestDTO dto){
-        Filme Filme = filmeService.buscarEntidade(dto.idFilme());
-        Avaliacao avaliacao = new Avaliacao();
+        Filme filme = filmeRepository.findById(dto.idFilme())
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        Avaliacao avaliacao = new Avaliacao(
+                dto.nota(),
+                dto.comentario(),
+                filme);
         return avaliacao;
     }
 
@@ -33,7 +41,8 @@ public class AvaliacaoService {
                 avaliacao.getId(),
                 avaliacao.getNota(),
                 avaliacao.getComentario(),
-                avaliacao.getFilme().getId()
+                avaliacao.getFilme().getId(),
+                avaliacao.getFilme().getTitulo()
         );
     }
 }

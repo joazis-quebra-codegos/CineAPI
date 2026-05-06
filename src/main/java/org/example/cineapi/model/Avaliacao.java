@@ -21,4 +21,12 @@ public class Avaliacao {
     @ManyToOne
     @JoinColumn(name = "idFilme")
     private Filme filme;
+
+    public Avaliacao(){}
+
+    public Avaliacao(Integer nota, String comentario, Filme filme){
+        this.nota = nota;
+        this.comentario = comentario;
+        this.filme = filme;
+    }
 }
