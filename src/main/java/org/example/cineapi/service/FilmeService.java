@@ -3,6 +3,7 @@ package org.example.cineapi.service;
 import org.example.cineapi.dto.FilmeRequestDTO;
 import org.example.cineapi.dto.FilmeResponseDTO;
 import org.example.cineapi.exception.RecursoNaoEncontradoException;
+import org.example.cineapi.model.Avaliacao;
 import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.DiretorRepository;
@@ -88,6 +89,21 @@ public class FilmeService {
                 filme.getTitulo(),
                 filme.getDiretor().getId(),
                 filme.getDiretor().getNome(),
+                calcularMediaAvaliacoes(filme)
         );
+    }
+
+    private Double calcularMediaAvaliacoes(Filme filme){
+        if (filme.getAvaliacao() == null || filme.getAvaliacao().isEmpty()){
+            return 0.0;
+        }
+        List<Avaliacao> avaliacoes = filme.getAvaliacao();
+
+        double media = avaliacoes.stream()
+                .mapToInt(Avaliacao::getNota)
+                .average()
+                .orElse(0.0);
+
+        return media;
     }
 }

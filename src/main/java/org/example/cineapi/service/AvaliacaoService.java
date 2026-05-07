@@ -10,6 +10,8 @@ import org.example.cineapi.repository.AvaliacaoRepository;
 import org.example.cineapi.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AvaliacaoService {
 
@@ -23,7 +25,18 @@ public class AvaliacaoService {
 
     public AvaliacaoResponseDTO salvar(AvaliacaoRequestDTO dto){
         Avaliacao avaliacao = toEntity(dto);
+        repository.save(avaliacao);
         return toResponse(avaliacao);
+    }
+
+    public List<AvaliacaoResponseDTO> listarPorFilme(Long id){
+        filmeRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+
+        return repository.findByFilmeId(id).
+                stream().
+                map(this::toResponse)
+                .toList();
     }
 
     private Avaliacao toEntity(AvaliacaoRequestDTO dto){
