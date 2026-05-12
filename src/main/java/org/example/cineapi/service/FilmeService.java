@@ -87,9 +87,13 @@ public class FilmeService {
         return new FilmeResponseDTO(
                 filme.getId(),
                 filme.getTitulo(),
+                filme.getGenero(),
+                filme.getAno(),
+                filme.getDuracao(),
                 filme.getDiretor().getId(),
                 filme.getDiretor().getNome(),
-                calcularMediaAvaliacoes(filme)
+                calcularMediaAvaliacoes(filme),
+                contarAvaliacoes(filme)
         );
     }
 
