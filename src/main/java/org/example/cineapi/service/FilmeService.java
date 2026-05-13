@@ -110,4 +110,25 @@ public class FilmeService {
 
         return media;
     }
+
+    private Integer contarAvaliacoes(Filme filme){
+        if(!filme.getAvaliacao().isEmpty()){
+            return filme.getAvaliacao().size();
+        } else {
+            return 0;
+        }
+    }
+    public List<FilmeResponseDTO> buscarPorTitulo(String titulo){
+        return repository.findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public List<FilmeResponseDTO> buscarPorGenero(String genero){
+        return repository.findByGeneroContainingIgnoreCase(genero)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
 }
